@@ -1,0 +1,4 @@
+Ken 5 Warrior 2
+Slade 5 Rogue 2
+Hans 5 Archer 2
+Tao 5 Mage 2

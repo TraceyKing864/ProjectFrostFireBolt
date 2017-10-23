@@ -1,0 +1,7 @@
+000_recruit.png
+016_warrior.png
+032_mage.png
+048_archer.png
+062_scout.png
+080_battlemage.png
+096_tactician.png

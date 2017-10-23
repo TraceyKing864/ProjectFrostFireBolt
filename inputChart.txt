@@ -1,0 +1,14 @@
+Character Information:
+    Line 1 <name> <characterLevel> <characterClass> <classLevel>
+Scene Information:
+    Line 1 <mapFileName>
+    Line 2 <numEnemyUnits> <numAllyUnits>
+    Line 3* <enemyCharacterDataForEachLine>
+    Line 4* <loadFrom PlayerUnits.txt>
+    Line 5 <x> <y>...numEnemyUnits
+    Line 6 <x> <y>...numAllyUnits
+Map Information:
+    Line 1 <mapWidth> <mapHeight>
+    Line 2 <tileID> ....mapWidth
+    ...
+    Line *mapHeight
