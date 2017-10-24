@@ -24,7 +24,7 @@ Graphics::Graphics(){
         return;
     }
     
-    font = TTF_OpenFont("Arial Bold.ttf", 12);
+    font = TTF_OpenFont("fonts/Arial Bold.ttf", 12);
     
     char windowTitle[128];
     sprintf(windowTitle, "Frost Insignia v0.01.05");
@@ -73,8 +73,8 @@ void Graphics::present(){
     SDL_RenderPresent(renderer);
 }
 void Graphics::loadTextureMaps(){
-    spriteMap = IMG_LoadTexture(renderer, "spriteTextureMap.png");
-    tileMap = IMG_LoadTexture(renderer, "tileTextureMap.png");
-    guiMap = IMG_LoadTexture(renderer, "guiTextureMap.png");
+    spriteMap = IMG_LoadTexture(renderer, "images/sprites/spriteTextureMap.png");
+    tileMap = IMG_LoadTexture(renderer, "images/tiles/tileTextureMap.png");
+    guiMap = IMG_LoadTexture(renderer, "images/gui/guiTextureMap.png");
 }
 
