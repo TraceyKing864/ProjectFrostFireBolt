@@ -40,6 +40,8 @@ Cursor::Cursor(Board* inBoard): actionMenu(), activeCharacterTextBox(8, 4, 0, 31
     targetCharacterTextBox.newLabel("HP: / ", 24, 48);
     targetCharacterTextBox.newLabel("MP: / ", 24, 60);
     
+    nextCharacter(board->getCurrentTurn());
+    
     updateTextBoxes();
 }
 Cursor::~Cursor(){
@@ -275,6 +277,28 @@ void Cursor::updateTextBoxes(){
         targetCharacterTextBox.editLabelString(5, "MP: / ");
     }
 }
+/*  TODO: add movement functions
+void Cursor::calculateWalkTiles(){
+    int characterX, characterY;
+    board->getCharacterLocation(characterTurn, &characterX, &characterY);
+    int i = 0;
+    int j = 0;
+    int moveRange = characterTurn->getMov();
+    for(int r = 0; r < moveRange; r++){
+        
+    }
+}
+bool Cursor::canWalkOnTile(int inX, int inY){
+    Cell* check = board->getCell(inX, inY);
+    for(std::list<Cell*>::iterator it = walkTiles.begin(); it != walkTiles.end(); it++){
+        if(*it == check)
+            return true;
+    }
+    return false;
+}
+
+*/
+
 bool Cursor::isMoving(){
     return moving;
 }
@@ -397,8 +421,40 @@ void Cursor::reset(){
     actionMenu.reset();
     updateTextBoxes();
 }
-
-
+void Cursor::nextCharacter(Character* nextCharacter){
+    characterTurn = nextCharacter;
+    int toX, toY;
+    board->getCharacterLocation(characterTurn, &toX, &toY);
+    autoMoveTo(toX, toY);
+    selectPiece();
+}
+void Cursor::autoMove(){
+    
+}
+void Cursor::autoMoveTo(unsigned int toX, unsigned int toY){
+    x = toX;
+    y = toY;
+    screenLocX = toX * 24;
+    screenLocY = toY * 24;
+    cellLocation = board->getCell(x, y);
+    updateTextBoxes();
+    /* this was supposed to move slowly however until I figure this out, it'll jump
+    if(toX > x){
+        for(int i = x; i != toX; i++)
+            moveCursor(right);
+    }else{
+        for(int i = x; i != toX; i--)
+            moveCursor(left);
+    }
+    if(toY > y){
+        for(int j = y; j != toY; j++)
+            moveCursor(down);
+    }else{
+        for(int j = y; j != toY; j--)
+            moveCursor(up);
+    }
+     */
+}
 
                                    
 ActionMenu::ActionMenu(){

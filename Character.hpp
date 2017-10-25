@@ -114,6 +114,7 @@ public:
     unsigned int getCurMP();
     unsigned int getMaxMP();
     unsigned int getSpd();
+    int getMov();
     
     void updateStats();
     void attack(Character* target);
@@ -171,6 +172,7 @@ public:
     void applyClassMod(charStats* inBaseStats, charStats* inStats);
     charStats getLevelUpStats();
     void setClass(std::string inClassName);
+    int getMove();
     
     friend class Character;
 };

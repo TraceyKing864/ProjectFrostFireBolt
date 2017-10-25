@@ -64,6 +64,9 @@ unsigned int Character::getMaxMP(){
 unsigned int Character::getSpd(){
     return spd;
 }
+int Character::getMov(){
+    return characterClass->getMove();
+}
 
 void Character::updateStats(){
     maxhp = ((stats.vitality * 0.8) + (stats.strength * 0.2)) * 2.5;
@@ -283,5 +286,8 @@ void CharacterClass::setClass(std::string inClassName){
             move = 5;
             break;
     }
+}
+int CharacterClass::getMove(){
+    return move;
 }
 

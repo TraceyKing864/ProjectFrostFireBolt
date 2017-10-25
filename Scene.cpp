@@ -10,6 +10,9 @@
 
 Scene::Scene(){
     loadScene("gameFiles/scene.txt");
+    sceneState = 1;
+    //currently set to 1 to account for the fact that
+    //  cursor selects the current character
 }
 Scene::~Scene(){
 }
@@ -123,6 +126,9 @@ void Scene::update(Input* input){
                 if(board->checkIfLastPlayer()){ //current win condition for game
                     std::cout << "PLAYER HAS WON...ENDING NOW" << std::endl;
                     quitGame();
+                }else{
+                    cursor->nextCharacter(board->nextTurn());
+                    sceneState = 1;
                 }
             }
             break;

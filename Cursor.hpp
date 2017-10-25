@@ -87,7 +87,7 @@ private:
     
     //  TODO: add movement parameters
     void calculateWalkTiles();
-    bool canWalkOnTile(int x, int y);
+    bool canWalkOnTile(int inX, int inY);
     //
     
 public:
@@ -128,6 +128,7 @@ public:
     //  @TODO: add movement confined to grid
     void nextCharacter(Character* nextCharacter);
     void autoMove();
+    void autoMoveTo(unsigned int toX, unsigned int toY);
     
     //
     

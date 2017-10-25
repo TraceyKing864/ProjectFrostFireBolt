@@ -94,6 +94,8 @@ Board::Board(std::string fileName){
         setCharacter((unsigned int)std::stoi(var[0]), (unsigned int)std::stoi(var[1]), &(*it));
     }
     
+    initTurnList();
+    
     file.close();
 }
 Board::~Board(){
@@ -153,6 +155,7 @@ void Board::removeDeadCharacters(){
                 int y = 0;
                 getCharacterLocation(&(*it), &x, &y);
                 cell[x][y].setCharacter(NULL);
+                turnList.remove(&*it);
                 characterList[i].erase(it);
             }
         }
@@ -174,22 +177,33 @@ void Board::initTurnList(){
     for(std::list<Character>::iterator it = characterList[1].begin(); it != characterList[1].end(); it++){
         turnList.push_back(&(*it));
     }
-    //sortTurnList();
+    sortTurnList();
     currentTurn = turnList.front();
-}
-//using normal sort
-//TODO MY DUDE
-/*
-bool Board::cmpCharSpd(const Character& first, const Character& second){
-    return first.getSpd() > second.getSpd();
+    
+    //debug cout-ing
+    std::cout << "Current turn: " << currentTurn->getName() << std::endl;
+    //
 }
 
-
-//TODO MY DUDE
+//helper function for sorting characters by speed
+//  note: can't be a function of Board:: due to how std::list.sort() is called
+bool cmpCharSpd(Character* first, Character* second){
+    return first->getSpd() > second->getSpd();
+}
 void Board::sortTurnList(){
     turnList.sort(cmpCharSpd);
+    
+    //debug cout-ing
+    int i = 0;
+    std::cout << "-----------------Initial Turn List-------------------" << std::endl;
+    for(std::list<Character*>::iterator it = turnList.begin(); it != turnList.end(); it++){
+        std::cout << "Turn " << i << ": " << (*it)->getName() << std::endl;
+        i++;
+    }
+    std::cout << "-----------------------------------------------------" << std::endl;
+    //
 }
-*/
+
 Character* Board::getCurrentTurn(){
     return currentTurn;
 }
@@ -197,6 +211,18 @@ Character* Board::nextTurn(){
     turnList.push_back(turnList.front());
     turnList.pop_front();
     currentTurn = turnList.front();
+    
+    //debug cout-ing
+    int i = 0;
+    std::cout << "-----------------Current Turn List-------------------" << std::endl;
+    for(std::list<Character*>::iterator it = turnList.begin(); it != turnList.end(); it++){
+        std::cout << "Turn " << i << ": " << (*it)->getName() << std::endl;
+        i++;
+    }
+    std::cout << "-----------------------------------------------------" << std::endl;
+    std::cout << "Current turn: " << currentTurn->getName() << std::endl;
+    //
+    
     return currentTurn;
 }
 void Board::render(Graphics* graphics){

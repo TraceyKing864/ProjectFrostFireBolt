@@ -47,7 +47,8 @@ void Game::stop() {
     TTF_Quit();
 }
 void Game::fpsChanged(int fps) {
-    std::cout << fps << std::endl;
+    //this can be used to monitor fps, just uncomment it
+    //std::cout << fps << std::endl;
 }
 
 void Game::quit() {

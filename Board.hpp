@@ -14,6 +14,8 @@
 #include "Graphics.hpp"
 #include <queue>
 
+bool cmpCharSpd(Character* first, Character* second);
+
 class Cell{
 private:
     Tile* tile;
@@ -36,11 +38,8 @@ private:
     //characters currently on the board
     const int players = 2;
     std::list<Character> characterList[2];
-    //  TODO: implement this, add movement/turn order to cursor
     std::list<Character*> turnList;
     Character* currentTurn;
-    bool cmpCharSpd(const Character& first, const Character& second);
-    //
 public:
     Board(std::string fileName);
     ~Board();
@@ -54,12 +53,10 @@ public:
     int getPlayerAt(unsigned int inX, unsigned int inY);
     void removeDeadCharacters();
     bool checkIfLastPlayer();
-    // TODO: implement these
     void initTurnList();
     void sortTurnList();
     Character* getCurrentTurn();
     Character* nextTurn();
-    //
     void render(Graphics* graphics);
 };
 
