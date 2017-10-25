@@ -74,7 +74,8 @@ private:
     
     //  TODO: add current character data
     Character* characterTurn;
-    std::list<Cell*> walkTiles;
+    std::vector<Cell*> walkTiles;
+    std::vector<Cell*> attackTiles;
     //
     
     void changeState(int change);
@@ -86,6 +87,7 @@ private:
     void updateTextBoxes();
     
     //  TODO: add movement parameters
+    void calcRange(int range, int charX, int charY);
     void calculateWalkTiles();
     bool canWalkOnTile(int inX, int inY);
     //

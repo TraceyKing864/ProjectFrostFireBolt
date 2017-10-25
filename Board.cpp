@@ -112,18 +112,30 @@ unsigned int Board::getHeight(){
 Cell* Board::getCell(unsigned int inX, unsigned int inY){
     return &cell[inX][inY];
 }
+bool Board::findCell(Cell* inCell, int* inX, int* inY){
+    for(int i = 0; i < width; i++){
+        for(int j = 0; j < height; j++){
+            if(&cell[i][j] == inCell){
+                *inX = i;
+                *inY = j;
+                return true;
+            }
+        }
+    }
+    return false;
+}
 void Board::setCharacter(unsigned int inX, unsigned int inY, Character* inCharacter){
     cell[inX][inY].setCharacter(inCharacter);
 }
 Character* Board::getCharacter(unsigned int inX, unsigned int inY){
     return cell[inX][inY].getCharacter();
 }
-void Board::getCharacterLocation(Character* inCharacter, int* x, int* y){
+void Board::getCharacterLocation(Character* inCharacter, int* inX, int* inY){
     for(int i = 0; i < width; i++){
         for(int j = 0; j < height; j++){
             if(cell[i][j].getCharacter() == inCharacter){
-                *x = i;
-                *y = j;
+                *inX = i;
+                *inY = j;
             }
         }
     }

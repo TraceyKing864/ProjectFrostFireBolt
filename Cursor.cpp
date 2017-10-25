@@ -51,6 +51,20 @@ void Cursor::render(Graphics* graphics){
     SDL_Rect screenLoc;
     SDL_Rect imgLoc;
     
+    if(cursorState == 1){
+        imgLoc = TextureManager::instance()->getGui(5)->getTexture();
+        screenLoc.w = imgLoc.w;
+        screenLoc.h = imgLoc.h;
+        for(std::vector<Cell*>::iterator it = walkTiles.begin(); it != walkTiles.end(); it++){
+            if(board->findCell(*it, &screenLoc.x, &screenLoc.y)){
+                screenLoc.x = screenLoc.x * 24;
+                screenLoc.y = screenLoc.y * 24;
+                graphics->renderTexture(&imgLoc, &screenLoc, 2);
+            }
+        }
+        
+    }
+    
     imgLoc = gui->getTexture();
     screenLoc.x = screenLocX;
     screenLoc.y = screenLocY;
@@ -129,69 +143,31 @@ bool Cursor::canMoveCursor(direction d){
     return canMove;
 }
 bool Cursor::canMovePiece(direction d){
-    bool canMove = true;
-    int height = board->getHeight();
-    int width = board->getWidth();
+    bool canMove = false;
     if(d == up){
-        if(y > 0){
-            //add code; check if can move there
-            if(board->getCharacter(x, y-1)){
-                if(board->getPlayerAt(x, y-1) == board->getPlayer(activeCharacter)){
-                    canMove = true;
-                }else{
-                    canMove = false;
-                }
-            }else{
-                canMove = true;
-            }
+        if(canWalkOnTile(x, y-1)){
+            canMove = true;
         }else{
             //add code; play error sound
             canMove = false;
         }
     }else if(d == down){
-        if(y < height-1){
-            //add code; check if can move there
-            if(board->getCharacter(x, y+1)){
-                if(board->getPlayerAt(x, y+1) == board->getPlayer(activeCharacter)){
-                    canMove = true;
-                }else{
-                    canMove = false;
-                }
-            }else{
-                canMove = true;
-            }
+        if(canWalkOnTile(x, y+1)){
+            canMove = true;
         }else{
             //add code; play error sound
             canMove = false;
         }
     }else if(d == left){
-        if(x > 0){
-            //add code; check if can move there
-            if(board->getCharacter(x-1, y)){
-                if(board->getPlayerAt(x-1, y) == board->getPlayer(activeCharacter)){
-                    canMove = true;
-                }else{
-                    canMove = false;
-                }
-            }else{
-                canMove = true;
-            }
+        if(canWalkOnTile(x-1, y)){
+            canMove = true;
         }else{
             //add code; play error sound
             canMove = false;
         }
     }else if(d == right){
-        if(x < width-1){
-            //add code; check if can move there
-            if(board->getCharacter(x+1, y)){
-                if(board->getPlayerAt(x+1, y) == board->getPlayer(activeCharacter)){
-                    canMove = true;
-                }else{
-                    canMove = false;
-                }
-            }else{
-                canMove = true;
-            }
+        if(canWalkOnTile(x+1, y)){
+            canMove = true;
         }else{
             //add code; play error sound
             canMove = false;
@@ -203,7 +179,7 @@ bool Cursor::canMovePiece(direction d){
     return canMove;
 }
 bool Cursor::pickupPiece(){
-    if(cellLocation->getCharacter()){
+    if(cellLocation->getCharacter() == characterTurn){
         activeCharacter = board->getCharacter(x, y);
         board->setCharacter(x, y, NULL);
         return true;
@@ -277,27 +253,60 @@ void Cursor::updateTextBoxes(){
         targetCharacterTextBox.editLabelString(5, "MP: / ");
     }
 }
-/*  TODO: add movement functions
+//  TODO: add movement functions
 void Cursor::calculateWalkTiles(){
-    int characterX, characterY;
+    int characterX = 0, characterY = 0;
     board->getCharacterLocation(characterTurn, &characterX, &characterY);
-    int i = 0;
-    int j = 0;
     int moveRange = characterTurn->getMov();
-    for(int r = 0; r < moveRange; r++){
-        
+    
+    //clear current list if not empty
+    if(!walkTiles.empty())
+        walkTiles.clear();
+    
+    //gets tiles that you can walk on
+    calcRange(moveRange, characterX, characterY);
+    
+}
+void Cursor::calcRange(int range, int charX, int charY){    //recursive
+    //check and add new walkable tile
+    Cell* toAdd = board->getCell(charX, charY);
+    bool unique = true;
+    for(std::vector<Cell*>::iterator it = walkTiles.begin(); it != walkTiles.end(); it++){
+        if(*it == toAdd)
+            unique = false;
+    }
+    if(unique)
+        walkTiles.push_back(*&toAdd);
+    
+    //check neighbors
+    if(range > 0){
+        //up
+        if(charY-1 >= 0)
+            calcRange(range-1, charX, charY-1);
+        //down
+        if(charY+1 < board->getHeight())
+            calcRange(range-1, charX, charY+1);
+        //left
+        if(charX-1 >= 0)
+            calcRange(range-1, charX-1, charY);
+        //right
+        if(charX+1 < board->getWidth())
+            calcRange(range-1, charX+1, charY);
     }
 }
 bool Cursor::canWalkOnTile(int inX, int inY){
+    //if it fails any of these tests, return false
+    if(!(inX >= 0 && inX < board->getWidth() && inY >= 0 && inY < board->getHeight())){
+        return false;
+    }
     Cell* check = board->getCell(inX, inY);
-    for(std::list<Cell*>::iterator it = walkTiles.begin(); it != walkTiles.end(); it++){
+    for(std::vector<Cell*>::iterator it = walkTiles.begin(); it != walkTiles.end(); it++){
         if(*it == check)
             return true;
     }
     return false;
 }
-
-*/
+//
 
 bool Cursor::isMoving(){
     return moving;
@@ -426,6 +435,7 @@ void Cursor::nextCharacter(Character* nextCharacter){
     int toX, toY;
     board->getCharacterLocation(characterTurn, &toX, &toY);
     autoMoveTo(toX, toY);
+    calculateWalkTiles();
     selectPiece();
 }
 void Cursor::autoMove(){

@@ -46,9 +46,10 @@ public:
     unsigned int getWidth();
     unsigned int getHeight();
     Cell* getCell(unsigned int inX, unsigned int inY);
+    bool findCell(Cell* inCell, int* inX, int* inY);
     void setCharacter(unsigned int inX, unsigned int inY, Character* inCharacter);
     Character* getCharacter(unsigned int inX, unsigned int inY);
-    void getCharacterLocation(Character* inCharacter, int* x, int* y);  //returns values in the pass in x and y
+    void getCharacterLocation(Character* inCharacter, int* inX, int* inY);  //returns values in the pass in x and y
     int getPlayer(Character* inCharacter);
     int getPlayerAt(unsigned int inX, unsigned int inY);
     void removeDeadCharacters();
