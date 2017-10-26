@@ -64,6 +64,19 @@ void Cursor::render(Graphics* graphics){
         }
         
     }
+    if(cursorState == 3){
+        imgLoc = TextureManager::instance()->getGui(5)->getTexture();
+        screenLoc.w = imgLoc.w;
+        screenLoc.h = imgLoc.h;
+        for(std::vector<Cell*>::iterator it = attackTiles.begin(); it != attackTiles.end(); it++){
+            if(board->findCell(*it, &screenLoc.x, &screenLoc.y)){
+                screenLoc.x = screenLoc.x * 24;
+                screenLoc.y = screenLoc.y * 24;
+                graphics->renderTexture(&imgLoc, &screenLoc, 2);
+            }
+        }
+        
+    }
     
     imgLoc = gui->getTexture();
     screenLoc.x = screenLocX;
@@ -146,35 +159,58 @@ bool Cursor::canMovePiece(direction d){
     bool canMove = false;
     if(d == up){
         if(canWalkOnTile(x, y-1)){
-            canMove = true;
+            if(board->getCell(x, y-1)->getCharacter() == NULL){
+                canMove = true;
+            }else if(board->getPlayerAt(x, y-1) != board->getPlayerAt(x, y)){
+                canMove = true;
+            }else{
+                canMove = false;
+            }
         }else{
-            //add code; play error sound
             canMove = false;
         }
     }else if(d == down){
         if(canWalkOnTile(x, y+1)){
-            canMove = true;
+            if(board->getCell(x, y+1)->getCharacter() == NULL){
+                canMove = true;
+            }else if(board->getPlayerAt(x, y+1) != board->getPlayerAt(x, y)){
+                canMove = true;
+            }else{
+                canMove = false;
+            }
         }else{
-            //add code; play error sound
             canMove = false;
         }
     }else if(d == left){
         if(canWalkOnTile(x-1, y)){
-            canMove = true;
+            if(board->getCell(x-1, y)->getCharacter() == NULL){
+                canMove = true;
+            }else if(board->getPlayerAt(x-1, y) != board->getPlayerAt(x, y)){
+                canMove = true;
+            }else{
+                canMove = false;
+            }
         }else{
-            //add code; play error sound
             canMove = false;
         }
     }else if(d == right){
         if(canWalkOnTile(x+1, y)){
-            canMove = true;
+            if(board->getCell(x+1, y)->getCharacter() == NULL){
+                canMove = true;
+            }else if(board->getPlayerAt(x+1, y) != board->getPlayerAt(x, y)){
+                canMove = true;
+            }else{
+                canMove = false;
+            }
         }else{
-            //add code; play error sound
             canMove = false;
         }
     }else{
         canMove = false;
         std::cout << "Error in Cursor::canMovePiece(); direction not specified." << std::endl;
+    }
+    if(!canMove){
+        //add code; play error sound
     }
     return canMove;
 }
@@ -306,6 +342,59 @@ bool Cursor::canWalkOnTile(int inX, int inY){
     }
     return false;
 }
+//  TODO: add attack range parameters
+void Cursor::calcAtkRange(int range, int charX, int charY){
+    //check and add new walkable tile
+    Cell* toAdd = board->getCell(charX, charY);
+    bool unique = true;
+    for(std::vector<Cell*>::iterator it = attackTiles.begin(); it != attackTiles.end(); it++){
+        if(*it == toAdd)
+            unique = false;
+    }
+    if(unique)
+        attackTiles.push_back(*&toAdd);
+    
+    //check neighbors
+    if(range > 0){
+        //up
+        if(charY-1 >= 0)
+            calcAtkRange(range-1, charX, charY-1);
+        //down
+        if(charY+1 < board->getHeight())
+            calcAtkRange(range-1, charX, charY+1);
+        //left
+        if(charX-1 >= 0)
+            calcAtkRange(range-1, charX-1, charY);
+        //right
+        if(charX+1 < board->getWidth())
+            calcAtkRange(range-1, charX+1, charY);
+    }
+}
+void Cursor::calculateAtkTiles(){
+    int characterX = 0, characterY = 0;
+    board->getCharacterLocation(characterTurn, &characterX, &characterY);
+    int atkRange = characterTurn->getAtkRng();
+    
+    //clear current list if not empty
+    if(!attackTiles.empty())
+        attackTiles.clear();
+    
+    //gets tiles that you can walk on
+    calcAtkRange(atkRange, characterX, characterY);
+    
+}
+bool Cursor::canAtkTile(int inX, int inY){
+    //if it fails any of these tests, return false
+    if(!(inX >= 0 && inX < board->getWidth() && inY >= 0 && inY < board->getHeight())){
+        return false;
+    }
+    Cell* check = board->getCell(inX, inY);
+    for(std::vector<Cell*>::iterator it = attackTiles.begin(); it != attackTiles.end(); it++){
+        if(*it == check)
+            return true;
+    }
+    return false;
+}
 //
 
 bool Cursor::isMoving(){
@@ -400,18 +489,19 @@ int Cursor::actionSelect(){
     }else if(action != 0){  //action selected, need target
         actionMenu.close();
         changeState(3);
+        calculateAtkTiles();
+        updateTextBoxes();
     }
     return action;      //if 0, invalid action
 }
 void Cursor::cancelTargetSelect(){
-    x = activeCharacterX;
-    y = activeCharacterY;
+    autoMoveTo(activeCharacterX, activeCharacterY);
     actionMenu.open();
     changeState(2);
 }
 bool Cursor::selectTarget(){
     if(cellLocation->getCharacter()){
-        if(board->getPlayer(activeCharacter) != board->getPlayerAt(x, y)){
+        if((board->getPlayer(activeCharacter) != board->getPlayerAt(x, y)) && canAtkTile(x, y)){
             targetCharacter = board->getCharacter(x, y);
             changeState(4);
             return true;

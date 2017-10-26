@@ -67,6 +67,9 @@ unsigned int Character::getSpd(){
 int Character::getMov(){
     return characterClass->getMove();
 }
+int Character::getAtkRng(){
+    return characterClass->getAtkRange();
+}
 
 void Character::updateStats(){
     maxhp = ((stats.vitality * 0.8) + (stats.strength * 0.2)) * 2.5;
@@ -152,6 +155,7 @@ CharacterClass::CharacterClass(){
     levelAmount.agility = 5;
     //Movement for this class
     move = 5;
+    atkRange = 1;
 }
 CharacterClass::~CharacterClass(){
     
@@ -212,6 +216,7 @@ void CharacterClass::setClass(std::string inClassName){
             levelAmount.agility = 5;
             //Movement for this class
             move = 4;
+            atkRange = 1;
             break;
         case 1:
             className = "Rogue";
@@ -236,6 +241,7 @@ void CharacterClass::setClass(std::string inClassName){
             levelAmount.agility = 6;
             //Movement for this class
             move = 6;
+            atkRange = 1;
             break;
         case 2:
             className = "Archer";
@@ -260,6 +266,7 @@ void CharacterClass::setClass(std::string inClassName){
             levelAmount.agility = 5;
             //Movement for this class
             move = 5;
+            atkRange = 2;
             break;
         case 3:
             className = "Mage";
@@ -284,10 +291,14 @@ void CharacterClass::setClass(std::string inClassName){
             levelAmount.agility = 5;
             //Movement for this class
             move = 5;
+            atkRange = 2;
             break;
     }
 }
 int CharacterClass::getMove(){
     return move;
+}
+int CharacterClass::getAtkRange(){
+    return atkRange;
 }
 

@@ -115,6 +115,7 @@ public:
     unsigned int getMaxMP();
     unsigned int getSpd();
     int getMov();
+    int getAtkRng();
     
     void updateStats();
     void attack(Character* target);
@@ -148,6 +149,7 @@ private:
     
     //Movement for this class
     int move;
+    int atkRange;
     
     //Abilities for this class
     //AbilitySet abilities;
@@ -173,6 +175,7 @@ public:
     charStats getLevelUpStats();
     void setClass(std::string inClassName);
     int getMove();
+    int getAtkRange();
     
     friend class Character;
 };

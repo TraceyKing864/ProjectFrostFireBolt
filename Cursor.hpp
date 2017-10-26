@@ -90,6 +90,11 @@ private:
     void calcRange(int range, int charX, int charY);
     void calculateWalkTiles();
     bool canWalkOnTile(int inX, int inY);
+    
+    //  TODO: add attack range parameters
+    void calcAtkRange(int range, int charX, int charY);
+    void calculateAtkTiles();
+    bool canAtkTile(int inX, int inY);
     //
     
 public:
