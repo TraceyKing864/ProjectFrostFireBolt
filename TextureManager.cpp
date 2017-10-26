@@ -97,24 +97,31 @@ TextureManager::TextureManager(){
     gui.push_back(Gui(&guiTextures[3][0], 3, "cursor_blue_1"));
     gui.push_back(Gui(&guiTextures[4][0], 4, "cursor_red_0"));
     gui.push_back(Gui(&guiTextures[6][0], 5, "cursor_yellow_0"));
+    gui.push_back(Gui(&guiTextures[8][0], 6, "cursor_green_0"));
+    gui.push_back(Gui(&guiTextures[11][6], 7, "range_blue"));
+    gui.push_back(Gui(&guiTextures[11][7], 8, "range_red"));
+    gui.push_back(Gui(&guiTextures[11][8], 9, "range_yellow"));
+    gui.push_back(Gui(&guiTextures[11][9], 10, "range_green"));
     
-    gui.push_back(Gui(&guiTextures[10][3], 6, "textbox_up_left"));
-    gui.push_back(Gui(&guiTextures[10][4], 7, "textbox_up"));
-    gui.push_back(Gui(&guiTextures[10][5], 8, "textbox_up_right"));
-    gui.push_back(Gui(&guiTextures[11][3], 9, "textbox_left"));
-    gui.push_back(Gui(&guiTextures[11][4], 10, "textbox_middle"));
-    gui.push_back(Gui(&guiTextures[11][5], 11, "textbox_right"));
-    gui.push_back(Gui(&guiTextures[12][3], 12, "textbox_down_left"));
-    gui.push_back(Gui(&guiTextures[12][4], 13, "textbox_down"));
-    gui.push_back(Gui(&guiTextures[12][5], 14, "textbox_down_right"));
+    gui.push_back(Gui(&guiTextures[10][3], 11, "textbox_up_left"));
+    gui.push_back(Gui(&guiTextures[10][4], 12, "textbox_up"));
+    gui.push_back(Gui(&guiTextures[10][5], 13, "textbox_up_right"));
+    gui.push_back(Gui(&guiTextures[11][3], 14, "textbox_left"));
+    gui.push_back(Gui(&guiTextures[11][4], 15, "textbox_middle"));
+    gui.push_back(Gui(&guiTextures[11][5], 16, "textbox_right"));
+    gui.push_back(Gui(&guiTextures[12][3], 17, "textbox_down_left"));
+    gui.push_back(Gui(&guiTextures[12][4], 18, "textbox_down"));
+    gui.push_back(Gui(&guiTextures[12][5], 19, "textbox_down_right"));
     
-    gui.push_back(Gui(&guiTextures[10][6], 15, "ally_marker"));
-    gui.push_back(Gui(&guiTextures[10][7], 16, "enemy_marker"));
+    gui.push_back(Gui(&guiTextures[10][6], 20, "ally_marker"));
+    gui.push_back(Gui(&guiTextures[10][7], 21, "enemy_marker"));
+    gui.push_back(Gui(&guiTextures[10][8], 22, "npc_marker"));
+    gui.push_back(Gui(&guiTextures[10][9], 23, "enemy_npc_marker"));
     
-    gui.push_back(Gui((new Texture(0, 312, action_width, action_height)), 17, "ability_cursor"));
-    gui.push_back(Gui((new Texture(24, 312, action_width, action_height)), 18, "ability_blank"));
-    gui.push_back(Gui((new Texture(48, 312, action_width, action_height)), 19, "ability_defend"));
-    gui.push_back(Gui((new Texture(72, 312, action_width, action_height)), 20, "ability_attack"));
+    gui.push_back(Gui((new Texture(0, 312, action_width, action_height)), 24, "ability_cursor"));
+    gui.push_back(Gui((new Texture(24, 312, action_width, action_height)), 25, "ability_blank"));
+    gui.push_back(Gui((new Texture(48, 312, action_width, action_height)), 26, "ability_defend"));
+    gui.push_back(Gui((new Texture(72, 312, action_width, action_height)), 27, "ability_attack"));
     
 }
 TextureManager::~TextureManager(){

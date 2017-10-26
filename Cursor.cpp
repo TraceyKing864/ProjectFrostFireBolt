@@ -52,7 +52,7 @@ void Cursor::render(Graphics* graphics){
     SDL_Rect imgLoc;
     
     if(cursorState == 1){
-        imgLoc = TextureManager::instance()->getGui(5)->getTexture();
+        imgLoc = TextureManager::instance()->getGui(7)->getTexture();
         screenLoc.w = imgLoc.w;
         screenLoc.h = imgLoc.h;
         for(std::vector<Cell*>::iterator it = walkTiles.begin(); it != walkTiles.end(); it++){
@@ -65,7 +65,7 @@ void Cursor::render(Graphics* graphics){
         
     }
     if(cursorState == 3){
-        imgLoc = TextureManager::instance()->getGui(5)->getTexture();
+        imgLoc = TextureManager::instance()->getGui(8)->getTexture();
         screenLoc.w = imgLoc.w;
         screenLoc.h = imgLoc.h;
         for(std::vector<Cell*>::iterator it = attackTiles.begin(); it != attackTiles.end(); it++){
@@ -563,13 +563,13 @@ ActionMenu::ActionMenu(){
     action[2] = 0;
     action[3] = 0;
     
-    gui[0] = TextureManager::instance()->getGui(20);
-    gui[1] = TextureManager::instance()->getGui(19);
-    gui[2] = TextureManager::instance()->getGui(18);
-    gui[3] = TextureManager::instance()->getGui(18);
+    gui[0] = TextureManager::instance()->getGui(27);
+    gui[1] = TextureManager::instance()->getGui(26);
+    gui[2] = TextureManager::instance()->getGui(25);
+    gui[3] = TextureManager::instance()->getGui(25);
     
     highlightedAction = 0;
-    cursor = TextureManager::instance()->getGui(17);
+    cursor = TextureManager::instance()->getGui(24);
 
     visible = false;
 

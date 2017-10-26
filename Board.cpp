@@ -254,9 +254,9 @@ void Board::render(Graphics* graphics){
                 cell[i][j].getCharacter()->render(graphics, &screenLoc);
                 int player = getPlayer(cell[i][j].getCharacter());
                 if(player == 0)
-                    imgLoc = TextureManager::instance()->getGui(15)->getTexture();
+                    imgLoc = TextureManager::instance()->getGui(20)->getTexture();
                 else
-                    imgLoc = TextureManager::instance()->getGui(16)->getTexture();
+                    imgLoc = TextureManager::instance()->getGui(21)->getTexture();
                 graphics->renderTexture(&imgLoc, &screenLoc, GUIMAP);
             }
         }

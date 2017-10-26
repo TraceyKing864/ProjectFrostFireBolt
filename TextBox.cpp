@@ -22,7 +22,7 @@ TextBox::TextBox(unsigned int inTextBoxSizeX, unsigned int inTextBoxSizeY, unsig
     textBoxSizeY = inTextBoxSizeY;
     screenLocX = inScreenLocX;
     screenLocY = inScreenLocY;
-    int id = 6;
+    int id = 11;
     for(int i = 0; i < 9; i++){
         gui[i] = TextureManager::instance()->getGui(id);
         id++;
