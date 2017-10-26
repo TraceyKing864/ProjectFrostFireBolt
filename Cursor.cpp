@@ -161,7 +161,7 @@ bool Cursor::canMovePiece(direction d){
         if(canWalkOnTile(x, y-1)){
             if(board->getCell(x, y-1)->getCharacter() == NULL){
                 canMove = true;
-            }else if(board->getPlayerAt(x, y-1) != board->getPlayerAt(x, y)){
+            }else if(board->getPlayerAt(x, y-1) == board->getPlayer(activeCharacter)){
                 canMove = true;
             }else{
                 canMove = false;
@@ -173,7 +173,7 @@ bool Cursor::canMovePiece(direction d){
         if(canWalkOnTile(x, y+1)){
             if(board->getCell(x, y+1)->getCharacter() == NULL){
                 canMove = true;
-            }else if(board->getPlayerAt(x, y+1) != board->getPlayerAt(x, y)){
+            }else if(board->getPlayerAt(x, y+1) == board->getPlayer(activeCharacter)){
                 canMove = true;
             }else{
                 canMove = false;
@@ -185,7 +185,7 @@ bool Cursor::canMovePiece(direction d){
         if(canWalkOnTile(x-1, y)){
             if(board->getCell(x-1, y)->getCharacter() == NULL){
                 canMove = true;
-            }else if(board->getPlayerAt(x-1, y) != board->getPlayerAt(x, y)){
+            }else if(board->getPlayerAt(x-1, y) == board->getPlayer(activeCharacter)){
                 canMove = true;
             }else{
                 canMove = false;
@@ -197,7 +197,7 @@ bool Cursor::canMovePiece(direction d){
         if(canWalkOnTile(x+1, y)){
             if(board->getCell(x+1, y)->getCharacter() == NULL){
                 canMove = true;
-            }else if(board->getPlayerAt(x+1, y) != board->getPlayerAt(x, y)){
+            }else if(board->getPlayerAt(x+1, y) == board->getPlayer(activeCharacter)){
                 canMove = true;
             }else{
                 canMove = false;
